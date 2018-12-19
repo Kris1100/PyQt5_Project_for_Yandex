@@ -14,12 +14,15 @@ class Example(QMainWindow, Ui_Form):
         self.setupUi(self)
 
 
-
-
 class MyWidget(QMainWindow, Clocks):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.label_4.hide()
+        self.label_5.hide()
+        self.checkBox_2.hide()
+        self.checkBox.hide()
+        self.checkBox_2.hide()
         self.timer = QTimer()
         self.timer1 = QTimer()
         self.timer2 = QTimer()
@@ -27,7 +30,6 @@ class MyWidget(QMainWindow, Clocks):
         self.timer.start(60)
         self.pushButton.clicked.connect(self.choose_else)
         self.w = Example()
-
 
     def run(self):
         self.label.setText(time.asctime().split()[3])
@@ -54,29 +56,35 @@ class MyWidget(QMainWindow, Clocks):
             self.timer2.timeout.connect(self.timeit)
             self.timer2.start(60)
 
-
-
-
         if okBtnPressed and i == 'Секундомер':
             self.timer2.stop()
+            self.label_4.show()
+            self.checkBox.show()
             self.label_3.setText('Прошло:')
-            help_for_now = time.asctime().split()[3]
-            self.now = int(help_for_now.split(':')[0]) * 3600 + int(help_for_now.split(':')[1]) * 60 + int(
-                help_for_now.split(':')[2])
+            if not self.checkBox_2.isChecked():
+                self.label_5.hide()
+                self.checkBox_2.hide()
+            help_for_now1 = time.asctime().split()[3]
+            if self.checkBox.isChecked():
+                self.timer1.stop()
+            else:
+                self.now1 = int(help_for_now1.split(':')[0]) * 3600 + int(help_for_now1.split(':')[1]) * 60 + int(
+                help_for_now1.split(':')[2])
             self.timer1.timeout.connect(self.how_much)
             self.timer1.start(60)
 
         if okBtnPressed and i == 'Часы':
             self.label_3.setText('')
             self.label_2.setText('')
-            self.timer1.stop()
             self.timer2.stop()
-
+            self.timer1.stop()
 
     def how_much(self):
-        help_for_now = int(time.asctime().split()[3].split(':')[0]) * 3600 + int(
+        help_for_now1 = int(time.asctime().split()[3].split(':')[0]) * 3600 + int(
             time.asctime().split()[3].split(':')[1]) * 60 + int(time.asctime().split()[3].split(':')[2])
-        self.label_2.setText(str(help_for_now - self.now))
+        self.label_2.setText(str(help_for_now1 - self.now1))
+
+
 
     def timeit(self):
         help_for_now = int(time.asctime().split()[3].split(':')[0]) * 3600 + int(
@@ -86,8 +94,6 @@ class MyWidget(QMainWindow, Clocks):
         if k <= '0':
             self.timer2.stop()
             self.w.show()
-
-
 
 
 app = QApplication(sys.argv)
