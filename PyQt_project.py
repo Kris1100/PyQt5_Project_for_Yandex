@@ -26,6 +26,7 @@ class MyWidget(QMainWindow, Clocks):
         self.timer = QTimer()
         self.timer1 = QTimer()
         self.timer2 = QTimer()
+        self.timer3 = QTimer()
         self.timer.timeout.connect(self.run)
         self.timer.start(60)
         self.pushButton.clicked.connect(self.choose_else)
@@ -44,6 +45,11 @@ class MyWidget(QMainWindow, Clocks):
             False
         )
         if okBtnPressed and i == 'Таймер':
+            self.checkBox_2.show()
+            self.label_5.show()
+            if not self.checkBox.isChecked():
+                self.label_4.hide()
+                self.checkBox.hide()
             self.timer1.stop()
             self.label_3.setText('Осталось:')
             i, okBtnPressed = QInputDialog.getInt(
@@ -64,6 +70,9 @@ class MyWidget(QMainWindow, Clocks):
             if not self.checkBox_2.isChecked():
                 self.label_5.hide()
                 self.checkBox_2.hide()
+            else:
+                self.timer3.timeout.connect(self.timeitwithsec)
+                self.timer3.start(60)
             help_for_now1 = time.asctime().split()[3]
             if self.checkBox.isChecked():
                 self.timer1.stop()
@@ -74,6 +83,12 @@ class MyWidget(QMainWindow, Clocks):
             self.timer1.start(60)
 
         if okBtnPressed and i == 'Часы':
+            if not self.checkBox_2.isChecked():
+                self.label_5.hide()
+                self.checkBox_2.hide()
+            if not self.checkBox.isChecked():
+                self.label_4.hide()
+                self.checkBox.hide()
             self.label_3.setText('')
             self.label_2.setText('')
             self.timer2.stop()
@@ -94,6 +109,15 @@ class MyWidget(QMainWindow, Clocks):
         if k <= '0':
             self.timer2.stop()
             self.w.show()
+
+    def timeitwithsec(self):
+        help_for_now = int(time.asctime().split()[3].split(':')[0]) * 3600 + int(
+            time.asctime().split()[3].split(':')[1]) * 60 + int(time.asctime().split()[3].split(':')[2])
+        k = str(self.i - (help_for_now - self.now))
+        if k <= '0':
+            self.timer3.stop()
+            self.w.show()
+
 
 
 app = QApplication(sys.argv)
