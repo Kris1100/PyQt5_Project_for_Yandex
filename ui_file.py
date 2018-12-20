@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Clocks(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -103,4 +104,3 @@ class Clocks(object):
         self.pushButton_4.setText(_translate("MainWindow", "Старт"))
         self.label_5.setText(_translate("MainWindow", "Таймер"))
         self.checkBox_2.setText(_translate("MainWindow", "Продолжить после переключения"))
-
